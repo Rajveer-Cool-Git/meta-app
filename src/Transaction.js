@@ -17,18 +17,20 @@ export function SendTransaction() {
     to: debouncedTo,
     value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
   })
-  const { data, sendTransaction } = useSendTransaction(config)
 
+  const { data, sendTransaction } = useSendTransaction(config)
   const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  })
+    hash: data?.hash, })
+
+
+
+
 
   return (
     <form onSubmit={(e) => {
         e.preventDefault()
         sendTransaction?.()
-      }}
-    >
+      }}>
             <div>
             <label htmlFor="acc">Account no : </label>
             <input
@@ -50,7 +52,7 @@ export function SendTransaction() {
             </div>
       <div>
       <button disabled={isLoading || !sendTransaction || !to || !amount} className='paybtn'>
-        {isLoading ? 'Processing...' : 'Pay'}
+        {isLoading ? 'Processing...' : 'Pay '}
       </button>
       </div>
       {isSuccess && (

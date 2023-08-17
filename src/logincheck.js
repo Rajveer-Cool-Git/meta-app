@@ -1,10 +1,14 @@
-import './App.css';
+import { useAccount, useConnect, useDisconnect } from 'wagmi'
 
-import MetaApp from './wallet';
+import { SendTransaction } from './Transaction'
+
+import './App.css';
+//import { SendTransaction } from './Transaction';
+
 import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
 import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
-import { LoginApp } from './logincheck';
+
 
 
 
@@ -25,28 +29,19 @@ const config = createConfig(
 }),
 );
 
-function App() {
 
-  
+export function LoginApp() {
+  const { isConnected } = useAccount()
 
-  return (
-    <div className="App">
+  if (isConnected) {
+    return (
+     <WagmiConfig config={config}>
+      <div>
+        <SendTransaction />
+      </div>
+      </WagmiConfig>
+    )
+  }
 
-        <header className="App-header">
-          Meta App
-        </header>
-
-        <div className="app-body">
-        <MetaApp />
-        </div>
-
-        <WagmiConfig config={config}>
-          <LoginApp />
-        </WagmiConfig>
-      
-      
-    </div>
-  );
+  return <div>{/* Connect wallet content goes here */}</div>
 }
-
-export default App;
