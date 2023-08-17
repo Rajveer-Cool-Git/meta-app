@@ -24,7 +24,6 @@ const config = createConfig(
 );
 
 
-
 const MetaApp = () => {
 
     const [isOn, setIsOn] = useState(false);
@@ -32,6 +31,7 @@ const MetaApp = () => {
           setIsOn(!isOn);
     };
 
+    
   return (
     <WagmiConfig config={config}>
       <ConnectKitProvider theme={isOn ? 'midnight' : 'auto'}>
@@ -42,17 +42,13 @@ const MetaApp = () => {
         <span className="slider round"></span>
         </label>
 
-          {/* <ConnectKitButton mode='dark' className='custom-connect-kit-button' /> */}
 
           <ConnectKitButton.Custom>
             {({ isConnected, show, truncatedAddress, ensName }) => {
+           
               return (
                 <button onClick={show} className="styled-button">
-
-                  {isConnected
-                    ? ensName ?? truncatedAddress
-                    : 'Connect Wallet'}
-
+                  {isConnected ? ensName ?? truncatedAddress : 'Connect Wallet'}
                 </button>
               );
             }}
@@ -66,4 +62,5 @@ const MetaApp = () => {
 
 
 export default MetaApp;
+
 
