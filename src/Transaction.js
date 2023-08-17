@@ -15,21 +15,31 @@ export function SendTransaction() {
 
   const { config } = usePrepareSendTransaction({
     to: debouncedTo,
-    value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
+    value: !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined,
+    //value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
   })
 
   const { data, sendTransaction } = useSendTransaction(config)
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash, })
 
-
+    const handleTransaction = () => {
+      if (!debouncedAmount || isNaN(parseFloat(debouncedAmount))) {
+        alert('Invalid amount, Please use numeric value');
+      } else if (parseFloat(debouncedAmount) <= 0) {
+        alert('Insufficient amount');
+      } else {
+        sendTransaction?.();
+      }
+    };
+    
 
 
 
   return (
     <form onSubmit={(e) => {
         e.preventDefault()
-        sendTransaction?.()
+        handleTransaction()
       }}>
             <div>
             <label htmlFor="acc">Account no : </label>
