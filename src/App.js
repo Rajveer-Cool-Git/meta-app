@@ -11,7 +11,7 @@ const chains = [mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos];
 
 const config = createConfig(
   getDefaultConfig({
-    // Required API Keys
+    // Required API Keys here
     alchemyId: process.env.ALCHEMY_ID, // or infuraId
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
     appName: "Your App Name",
