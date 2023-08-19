@@ -4,7 +4,7 @@ import { usePrepareSendTransaction, useSendTransaction, useWaitForTransaction } 
 import { parseEther } from 'ethers';
 import './App.css';
 
-//import { ethers  } from 'ethers';
+
 
 export function SendTransaction() {
   const [to, setTo] = React.useState('')
@@ -29,7 +29,9 @@ export function SendTransaction() {
       } else if (parseFloat(debouncedAmount) <= 0) {
         alert('Insufficient amount');
       } else {
+        
         sendTransaction?.();
+       
       }
     };
     
@@ -39,6 +41,7 @@ export function SendTransaction() {
   return (
     <form onSubmit={(e) => {
         e.preventDefault()
+        
         handleTransaction()
       }}>
             <div>

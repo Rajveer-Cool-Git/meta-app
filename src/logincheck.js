@@ -1,14 +1,10 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
-
 import { SendTransaction } from './Transaction'
-
 import './App.css';
-//import { SendTransaction } from './Transaction';
 
 import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
 import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
-
 
 
 
@@ -38,6 +34,7 @@ export function LoginApp() {
      <WagmiConfig config={config}>
       <div>
         <SendTransaction />
+     
       </div>
       </WagmiConfig>
     )

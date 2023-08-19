@@ -1,19 +1,19 @@
 
 import './App.css';
 import React, { useState } from 'react';
-import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
+import { mainnet, optimism, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from "connectkit";
 
 
-const chains = [mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos];
+const chains = [mainnet, optimism, arbitrum, bscTestnet, bsc];
 
 const config = createConfig(
   getDefaultConfig({
     // Required API Keys
     alchemyId: process.env.ALCHEMY_ID, // or infuraId
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
-    appName: "Your App Name",
+    appName: "Pay App",
     chains,
     appDescription: "Your App Description",
     appUrl: "https://family.co", // your app's url
