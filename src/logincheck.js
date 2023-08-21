@@ -5,6 +5,7 @@ import './App.css';
 import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
 import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
+import SwitchNet from './Switching';
 
 
 
@@ -33,6 +34,7 @@ export function LoginApp() {
     return (
      <WagmiConfig config={config}>
       <div>
+        <SwitchNet/>
         <SendTransaction />
      
       </div>

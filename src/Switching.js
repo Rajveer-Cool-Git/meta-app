@@ -1,4 +1,5 @@
 import { useNetwork, useSwitchNetwork } from 'wagmi'
+import './App.css';
 
 function SwitchNet() {
   const { chain } = useNetwork()
@@ -14,6 +15,7 @@ function SwitchNet() {
           disabled={!switchNetwork || x.id === chain?.id}
           key={x.id}
           onClick={() => switchNetwork?.(x.id)}
+          className='switchbtn'
         >
           {x.name}
           {isLoading && pendingChainId === x.id && ' (switching)'}

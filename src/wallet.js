@@ -1,12 +1,12 @@
 
 import './App.css';
 import React, { useState } from 'react';
-import { mainnet, optimism, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
+import { mainnet, optimism, polygon, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from "connectkit";
 
 
-const chains = [mainnet, optimism, arbitrum, bscTestnet, bsc];
+const chains = [mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos];
 
 const config = createConfig(
   getDefaultConfig({
@@ -15,6 +15,10 @@ const config = createConfig(
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
     appName: "Pay App",
     chains,
+    options: {
+      shimDisconnect: true,
+      UNSTABLE_shimOnConnectSelectAccount: true,
+    },
     appDescription: "Your App Description",
     appUrl: "https://family.co", // your app's url
     appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
