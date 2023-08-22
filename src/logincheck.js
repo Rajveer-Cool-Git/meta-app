@@ -1,4 +1,4 @@
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { SendTransaction } from './Transaction'
 import './App.css';
 
@@ -6,6 +6,9 @@ import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wa
 import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
 import SwitchNet from './Switching';
+//import { MintNFTForm } from './sendToken';
+
+
 
 
 
@@ -36,7 +39,7 @@ export function LoginApp() {
       <div>
         <SwitchNet/>
         <SendTransaction />
-     
+       {/* <MintNFTForm/> */}
       </div>
       </WagmiConfig>
     )
