@@ -1,6 +1,5 @@
 import * as React from 'react'
-  useContractWrite,
-  useWaitForTransaction,
+
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
 import { useDebounce } from 'use-debounce';
 import { erc20ABI } from 'wagmi';
