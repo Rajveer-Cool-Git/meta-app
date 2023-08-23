@@ -1,26 +1,25 @@
 import * as React from 'react'
-import {
-  usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction,
-} from 'wagmi'
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
 import { useDebounce } from 'use-debounce';
+import { erc20ABI } from 'wagmi';
+import './App.css';
 
 export function MintNFTForm() {
+    const [to, setTo] = React.useState('')
+    const [debouncedTo] = useDebounce(to, 500)
+
   const [tokenId, setTokenId] = React.useState('')
   const debouncedTokenId = useDebounce(tokenId)
 
-  const {
-    config,
-    error: prepareError,
-    isError: isPrepareError,
-  } = usePrepareContractWrite({
-    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+  const { config, error: prepareError, isError: isPrepareError} = usePrepareContractWrite({
+    address: debouncedTo,
     abi: [
       {
         name: 'mint',
         type: 'function',
-        stateMutability: 'nonpayable',
+        stateMutability: 'payable',
         inputs: [{ internalType: 'uint32', name: 'tokenId', type: 'uint32' }],
         outputs: [],
       },
@@ -36,28 +35,36 @@ export function MintNFTForm() {
   })
 
   return (
-    <form
-      onSubmit={(e) => {
+    <form onSubmit={(e) => {
         e.preventDefault()
         write?.()
-      }}
-    >
-      <label for="tokenId">Token ID</label>
-      <input
-        id="tokenId"
-        onChange={(e) => setTokenId(e.target.value)}
-        placeholder="420"
-        value={tokenId}
-      />
-      <button disabled={!write || isLoading}>
+      }} >
+        <div>
+            <label htmlFor="acc">Account no : </label>
+            <input
+                aria-label="Recipient"
+                className='inputbtn'
+                onChange={(e) => setTo(e.target.value)}
+                placeholder="0xA0C............."
+                value={to} />
+        </div>
+        <div>
+            <label for="tokenId">Token ID</label>
+            <input
+                className='inputbtn'
+                id="tokenId"
+                onChange={(e) => setTokenId(e.target.value)}
+                placeholder="420"
+                value={tokenId}
+            />
+        </div>
+
+      <button disabled={!write || isLoading} className='paybtn'>
         {isLoading ? 'Minting...' : 'Mint'}
       </button>
       {isSuccess && (
         <div>
           Successfully minted your NFT!
-          <div>
-            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
-          </div>
         </div>
       )}
       {(isPrepareError || isError) && (
@@ -67,68 +74,3 @@ export function MintNFTForm() {
   )
 }
 
-
-
-// import React, { useState } from 'react';
-// import {  useSendTransaction, useWaitForTransaction } from 'wagmi';
-// import { ethers } from 'ethers';
-// import { erc20ABI } from 'wagmi'
-
-// import './App.css';
-
-
-
-// function SendTokenTransaction() {
-//   //const { account } = useAccount();
-//   const [recipientAddress, setRecipientAddress] = useState('');
-//   const [amount, setAmount] = useState('');
-
-
-//   const tokenContractInterface = new ethers(erc20ABI); 
-//   const data = tokenContractInterface.encodeFunctionData('transfer', [recipientAddress, amount]);
-
-//   const { data: sendTransactionData, sendTransaction } = useSendTransaction({
-    
-//     data,
-//   });
-
-//   const { isLoading, isSuccess } = useWaitForTransaction({
-//     hash: sendTransactionData?.hash,
-//   });
-
-//   const handleSendToken = () => {
-//     if (recipientAddress && amount) {
-//       sendTransaction();
-//     } else {
-//       alert('Please provide recipient address and amount.');
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <label>
-//         Recipient Address:
-//         <input
-//           type="text"
-//           value={recipientAddress}
-//           onChange={(e) => setRecipientAddress(e.target.value)}
-//         />
-//       </label>
-//       <br />
-//       <label>
-//         Amount:
-//         <input
-//           type="text"
-//           value={amount}
-//           onChange={(e) => setAmount(e.target.value)}
-//         />
-//       </label>
-//       <br />
-//       <button onClick={handleSendToken}>Send Token</button>
-//       {isLoading && <p>Sending...</p>}
-//       {isSuccess && <p>Token sent successfully!</p>}
-//     </div>
-//   );
-// }
-
-// export default SendTokenTransaction;
