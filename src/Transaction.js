@@ -18,7 +18,6 @@ export function SendTransaction() {
     value: !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined,
     //value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
   })
-  console.log('Config:', config);
 
   const { data, sendTransaction } = useSendTransaction(config)
   const { isLoading, isSuccess } = useWaitForTransaction({
