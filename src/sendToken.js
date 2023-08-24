@@ -2,6 +2,7 @@ import * as React from 'react';
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction,  } from 'wagmi';
 import { erc20ABI } from 'wagmi';
 import { useDebounce } from 'use-debounce';
+import { parseEther } from 'ethers';
 import './App.css';
 
 
@@ -16,11 +17,13 @@ function SendToken() {
   const [amount, setAmount] = React.useState('')
   const [debouncedAmount] = useDebounce(amount, 500)
 
+  const tokenValue =  !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined;
+
   const { config } = usePrepareContractWrite({
     address: BNBT_CONTRACT_ADDRESS,
     abi : erc20ABI,
     functionName: 'transfer',
-    args: [debouncedAc, debouncedAmount],
+    args: [debouncedAc, tokenValue],
     enabled: true,
 
   });
@@ -55,7 +58,7 @@ function SendToken() {
                 aria-label="Amount (ether)"
                 className='inputbtn'
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder="0.05"
+                placeholder="1"
                 value={amount} />
             </div>
       <div>
@@ -70,9 +73,6 @@ function SendToken() {
         </div>)}
 
     </form>
-
-
-      {/* <button onClick={handleClick} disabled={!write || isLoading}> Submit All Amount </button> */}
     </div>
 
 

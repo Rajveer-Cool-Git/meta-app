@@ -209,3 +209,22 @@ input:checked + .slider:before {
   color :#866014;
   font-weight: bold;
 }
+
+.box select {
+  background-color: #487da5;
+  color: white;
+  padding: 12px;
+  width: 250px;
+  border: none;
+  border-radius: .25rem;
+  font-size: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+}
+
+
+
+
+

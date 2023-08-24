@@ -1,5 +1,5 @@
 import { useAccount } from 'wagmi'
-import { SendTransaction } from './Transaction'
+import { SendTransaction } from './sendCoin'
 import React, { useState } from 'react';
 
 import './App.css';
@@ -42,17 +42,19 @@ export function LoginApp() {
      <WagmiConfig config={config}>
       <div>
         <SwitchNet/>
-        <div className='fields'>
-        <label htmlFor="selectInput">Choose an option:</label>
+
+        <div className='box'>
+        
         <select id="selectInput" onChange={(e) => setSelectedOption(e.target.value)}>
+          <option selected value="">Choose Value</option>
           <option value="sendCoin">Send Coin</option>
           <option value="sendToken">Send Token</option>
-          <option value="mint">MInt</option>
+        
         </select><br />
       </div>
           {selectedOption === 'sendCoin' && <SendTransaction />}
           {selectedOption === 'sendToken' && <MintNFTForm />}
-          {selectedOption === 'mint' && <MintNFT/>}
+        
   
       </div>
       </WagmiConfig>
