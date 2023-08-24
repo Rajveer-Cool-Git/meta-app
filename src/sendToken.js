@@ -1,75 +1,43 @@
-import * as React from 'react'
-
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
-import { useDebounce } from 'use-debounce';
+import * as React from 'react';
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, writeContract  } from 'wagmi';
 import { erc20ABI } from 'wagmi';
-import './App.css';
 
-export function MintNFTForm() {
-    const [to, setTo] = React.useState('')
-    const [debouncedTo] = useDebounce(to, 500)
 
-  const [tokenId, setTokenId] = React.useState('')
-  const debouncedTokenId = useDebounce(tokenId)
+function SendToken() {
+  const BNBT_CONTRACT_ADDRESS = '0xE4B361431E2E194B38833004A6b72e3Ab3479aaE'; // Replace with the BNBT contract address
+  const RECIPIENT_ADDRESS = '0x038aC7727A8dC0F9AC4983A69e8554d06E31Ac2C'; // Replace with the recipient's address
+  const TOKEN_AMOUNT = 1000000000000000000; // Replace with the amount of tokens to send
 
-  const { config, error: prepareError, isError: isPrepareError} = usePrepareContractWrite({
-    address: debouncedTo,
-    abi: [
-      {
-        name: 'mint',
-        type: 'function',
-        stateMutability: 'payable',
-        inputs: [{ internalType: 'uint32', name: 'tokenId', type: 'uint32' }],
-        outputs: [],
-      },
-    ],
-    functionName: 'mint',
-    args: [parseInt(debouncedTokenId)],
-    enabled: Boolean(debouncedTokenId),
-  })
-  const { data, error, isError, write } = useContractWrite(config)
+  const { config } = usePrepareContractWrite({
+    address: BNBT_CONTRACT_ADDRESS,
+    abi : erc20ABI,
+    
+    functionName: 'transfer',
+    args: [RECIPIENT_ADDRESS, TOKEN_AMOUNT],
+    enabled: true,
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  })
+  });
 
+  console.log('Config:', config);
+  const {  data,
+    write,
+  } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash });
+  console.log('Write:', write);
+
+
+  const handleClick = () => {
+    console.log('Click event triggered');
+    write?.();
+  };
   return (
-    <form onSubmit={(e) => {
-        e.preventDefault()
-        write?.()
-      }} >
-        <div>
-            <label htmlFor="acc">Account no : </label>
-            <input
-                aria-label="Recipient"
-                className='inputbtn'
-                onChange={(e) => setTo(e.target.value)}
-                placeholder="0xA0C............."
-                value={to} />
-        </div>
-        <div>
-            <label for="tokenId">Token ID</label>
-            <input
-                className='inputbtn'
-                id="tokenId"
-                onChange={(e) => setTokenId(e.target.value)}
-                placeholder="420"
-                value={tokenId}
-            />
-        </div>
+    <div>
+      <button onClick={handleClick} disabled={!write || isLoading}> Submit All Amount </button>
+    </div>
 
-      <button disabled={!write || isLoading} className='paybtn'>
-        {isLoading ? 'Minting...' : 'Mint'}
-      </button>
-      {isSuccess && (
-        <div>
-          Successfully minted your NFT!
-        </div>
-      )}
-      {(isPrepareError || isError) && (
-        <div>Error: {(prepareError || error)?.message}</div>
-      )}
-    </form>
-  )
+
+  );
 }
 
+export default SendToken;

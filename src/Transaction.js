@@ -18,6 +18,7 @@ export function SendTransaction() {
     value: !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined,
     //value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
   })
+  console.log('Config:', config);
 
   const { data, sendTransaction } = useSendTransaction(config)
   const { isLoading, isSuccess } = useWaitForTransaction({
@@ -41,7 +42,6 @@ export function SendTransaction() {
   return (
     <form onSubmit={(e) => {
         e.preventDefault()
-        
         handleTransaction()
       }}>
             <div>
@@ -68,12 +68,12 @@ export function SendTransaction() {
         {isLoading ? 'Processing...' : 'Pay '}
       </button>
       </div>
+
       {isSuccess && (
         <div>
           Successfully sent <div className='ac-coin'>{amount}</div> coins to <div className='ac-add'>{to}</div>
-          
-        </div>
-      )}
+        </div>)}
+
     </form>
   )
 }

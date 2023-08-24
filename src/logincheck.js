@@ -8,8 +8,8 @@ import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wa
 import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
 import SwitchNet from './Switching';
-import { MintNFTForm } from './sendToken';
-
+import MintNFTForm from './sendToken';
+import MintNFT from './test';
 
 
 
@@ -47,10 +47,12 @@ export function LoginApp() {
         <select id="selectInput" onChange={(e) => setSelectedOption(e.target.value)}>
           <option value="sendCoin">Send Coin</option>
           <option value="sendToken">Send Token</option>
+          <option value="mint">MInt</option>
         </select><br />
       </div>
           {selectedOption === 'sendCoin' && <SendTransaction />}
           {selectedOption === 'sendToken' && <MintNFTForm />}
+          {selectedOption === 'mint' && <MintNFT/>}
   
       </div>
       </WagmiConfig>
