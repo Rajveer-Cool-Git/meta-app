@@ -34,10 +34,18 @@ function SendToken() {
   const handleClick = () => {
     write?.();
   };
+
+  function closeAlert(element) {
+    const parentDiv = element.parentElement;
+    parentDiv.style.display = 'none';
+  }
+  
   
   return (
+    
   
     <div>
+
       <form onSubmit={(e) => {
         e.preventDefault()
         handleClick()
@@ -62,15 +70,24 @@ function SendToken() {
                 value={amount} />
             </div>
       <div>
-      <button disabled={isLoading || !write || !ac || !amount} className='paybtn'>
+      <button disabled={isLoading || !write || !ac } className='paybtn'>
         {isLoading ? 'Processing...' : 'Pay '}
       </button>
       </div>
 
       {isSuccess && (
-        <div>
-          Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{ac}</div>
-        </div>)}
+      <div class="alert">
+           Payment done
+          <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
+      </div>
+      )}
+
+      {!amount && (
+      <div class="alert">
+          Insufficient Balance
+          <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
+      </div>
+      )}
 
     </form>
     </div>

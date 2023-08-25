@@ -224,7 +224,36 @@ input:checked + .slider:before {
   outline: none;
 }
 
+.alert {
+  padding: 20px;
+  background-color: #8b92ac;
+  color: white;
+  height: 40px;
+  width: 50%;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  
+  margin: auto;
+  position: relative;
+  top: -372.9px;
+}
 
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
 
 
 
