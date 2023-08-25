@@ -7,6 +7,8 @@ import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
 import { SendTransaction } from './sendCoin'
 import SendToken from './sendToken';
+import Balance from './Balance';
+import SwitchNet from './networkChain';
 
 
 
@@ -41,12 +43,13 @@ export function LoginApp() {
      <WagmiConfig config={config}>
       <div>
 
-
-
+        <Balance/>    <br   />
+        <SwitchNet/>  <br   />
+        
         <div className='box'>
         
         <select id="selectInput" onChange={(e) => setSelectedOption(e.target.value)}>
-          <option selected value="">Choose Value</option>
+          <option  value="">Choose Value</option>
           <option value="sendCoin">Send Coin</option>
           <option value="sendToken">Send Token</option>
         

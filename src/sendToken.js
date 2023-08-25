@@ -7,10 +7,11 @@ import './App.css';
 
 
 function SendToken() {
-  const BNBT_CONTRACT_ADDRESS = '0xE4B361431E2E194B38833004A6b72e3Ab3479aaE'; // Replace with the BNBT contract address
-  //const RECIPIENT_ADDRESS = '0x038aC7727A8dC0F9AC4983A69e8554d06E31Ac2C'; // Replace with the recipient's address
-  //const TOKEN_AMOUNT = 1000000000000000000; // Replace with the amount of tokens to send
-
+  //const BNBT_CONTRACT_ADDRESS = '0x84b9B910527Ad5C03A9Ca831909E21e236EA7b06'; // Replace with the BNBT contract address
+  
+  const [con, setcontract] = React.useState('')
+  //const [debouncedcontract] = useDebounce(con, 500)
+  
   const [ac, setAc] = React.useState('')
   const [debouncedAc] = useDebounce(ac, 500)
 
@@ -20,7 +21,7 @@ function SendToken() {
   const tokenValue =  !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined;
 
   const { config } = usePrepareContractWrite({
-    address: BNBT_CONTRACT_ADDRESS,
+    address: con,
     abi : erc20ABI,
     functionName: 'transfer',
     args: [debouncedAc, tokenValue],
@@ -51,6 +52,16 @@ function SendToken() {
         handleClick()
       }}>
             <div>
+            <label htmlFor="acc">Contract Address : </label>
+            <input
+                aria-label="Contract"
+                className='inputbtn'
+                onChange={(e) => setcontract(e.target.value)}
+                placeholder="Contract Address"
+                value={con} />
+            </div>
+
+            <div>
             <label htmlFor="acc">Account no : </label>
             <input
                 aria-label="Recipient"
@@ -74,20 +85,15 @@ function SendToken() {
         {isLoading ? 'Processing...' : 'Pay '}
       </button>
       </div>
-
-      {isSuccess && (
+   
+      {isSuccess &&  (
       <div class="alert">
-           Payment done
+          Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{ac}</div>
           <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
       </div>
       )}
 
-      {!amount && (
-      <div class="alert">
-          Insufficient Balance
-          <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
-      </div>
-      )}
+      
 
     </form>
     </div>

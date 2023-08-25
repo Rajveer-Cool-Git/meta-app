@@ -2,40 +2,54 @@ import * as React from 'react';
 import { useDebounce } from 'use-debounce';
 import { usePrepareSendTransaction, useSendTransaction, useWaitForTransaction } from 'wagmi';
 import { parseEther } from 'ethers';
+import { useAccount } from 'wagmi'
+import { useBalance } from 'wagmi'
 import './App.css';
 
 
 
 export function SendTransaction() {
+  //to take Address and Amount
   const [to, setTo] = React.useState('')
   const [debouncedTo] = useDebounce(to, 500)
 
   const [amount, setAmount] = React.useState('')
   const [debouncedAmount] = useDebounce(amount, 500)
 
+  //to make transaction
   const { config } = usePrepareSendTransaction({
     to: debouncedTo,
     value: !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined,
-    //value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
   })
 
   const { data, sendTransaction } = useSendTransaction(config)
   const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash, })
+    hash: data?.hash })
 
+  const { address } = useAccount()
+  const { data: AcBal} = useBalance({
+        address: address,
+  })
+
+  //transaction handling
+  console.log(amount);
     const handleTransaction = () => {
       if (!debouncedAmount || isNaN(parseFloat(debouncedAmount))) {
         alert('Invalid amount, Please use numeric value');
       } else if (parseFloat(debouncedAmount) <= 0) {
-        alert('Insufficient amount');
+        alert('Amount cant be zero');
+      } else if (amount > (AcBal?.formatted)) {
+        alert('Insufficient amount av');
       } else {
         
         sendTransaction?.();
-       
       }
     };
     
-
+    function closeAlert(element) {
+      const parentDiv = element.parentElement;
+      parentDiv.style.display = 'none';
+    }
 
 
   return (
@@ -63,15 +77,17 @@ export function SendTransaction() {
                 value={amount} />
             </div>
       <div>
-      <button disabled={isLoading || !sendTransaction || !to || !amount} className='paybtn'>
+      <button disabled={isLoading } className='paybtn'>
         {isLoading ? 'Processing...' : 'Pay '}
       </button>
       </div>
 
-      {isSuccess && (
-        <div>
-          Successfully sent <div className='ac-coin'>{amount}</div> coins to <div className='ac-add'>{to}</div>
-        </div>)}
+      {isSuccess &&  (
+      <div class="alert">
+          Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{to}</div>
+          <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
+      </div>
+      )}
 
     </form>
   )

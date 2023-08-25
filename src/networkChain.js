@@ -12,8 +12,6 @@ function SwitchNet() {
 
   return (
     <>
-
-      {chain && <div>Connected to {chain.name}</div>}
       <div className='box'>
       <select className="switchSelect" onChange={handleNetworkChange}>
         {chains.map((x) => (
@@ -28,6 +26,7 @@ function SwitchNet() {
         ))}
       </select>
       </div>
+      {chain && <div>Connected to {chain.name}</div>}
       <div>{error && error.message}</div>
     </>
   );
@@ -65,3 +64,4 @@ export default SwitchNet;
 //   )
 // }
 //  export default SwitchNet;
+

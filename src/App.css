@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   background-color: rgb(218, 204, 204);
-  padding: 140px;
+  padding: 110px;
 
 }
 
@@ -229,15 +229,15 @@ input:checked + .slider:before {
   background-color: #8b92ac;
   color: white;
   height: 40px;
-  width: 50%;
+  width: 80%;
   text-align: center;
   align-items: center;
   display: flex;
   justify-content: center;
   
-  margin: auto;
+  /* margin: auto;
   position: relative;
-  top: -372.9px;
+  top: -372.9px; */
 }
 
 .closebtn {
