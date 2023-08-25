@@ -4,7 +4,7 @@ import { usePrepareSendTransaction, useSendTransaction, useWaitForTransaction } 
 import { parseEther } from 'ethers';
 import './App.css';
 
-//import { ethers  } from 'ethers';
+
 
 export function SendTransaction() {
   const [to, setTo] = React.useState('')
@@ -29,7 +29,9 @@ export function SendTransaction() {
       } else if (parseFloat(debouncedAmount) <= 0) {
         alert('Insufficient amount');
       } else {
+        
         sendTransaction?.();
+       
       }
     };
     
@@ -65,12 +67,12 @@ export function SendTransaction() {
         {isLoading ? 'Processing...' : 'Pay '}
       </button>
       </div>
+
       {isSuccess && (
         <div>
           Successfully sent <div className='ac-coin'>{amount}</div> coins to <div className='ac-add'>{to}</div>
-          
-        </div>
-      )}
+        </div>)}
+
     </form>
   )
 }

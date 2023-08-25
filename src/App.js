@@ -5,6 +5,7 @@ import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wa
 import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
 import { LoginApp } from './logincheck';
+//import NetworkSwitcher from './bal';
 
 
 
@@ -42,9 +43,10 @@ function App() {
 
         <WagmiConfig config={config}>
           <LoginApp />
+          
         </WagmiConfig>
       
-      
+       
     </div>
   );
 }

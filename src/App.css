@@ -1,6 +1,9 @@
 .App {
   text-align: center;
   background-color: rgb(218, 204, 204);
+  padding : 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
 }
 
 .App-header {
@@ -45,8 +48,8 @@
   /* position: relative; */
   cursor: pointer;
   position: absolute;
-  top: 10px; 
-  right: 10px;
+  top: 25px; 
+  right: 16px;
   display: inline-block;
   width: 60px;
   height: 34px;
@@ -169,6 +172,34 @@ input:checked + .slider:before {
   background-color: #0b2e49;
 }
 
+
+.switchbtn{
+  cursor: pointer;
+  outline: 0;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  margin: 5px;
+  /* background-color: transparent; */
+  background-color: #487da5;
+  border: 5px solid transparent;
+  padding: 6px 12px;
+  font-size: 1rem;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  color: #fff;
+  border-color: #487da5;
+}
+
+.switchbtn:hover {
+  color: #fff;
+  background-color: #0b2e49;
+  border-color: #0b2e49;
+  transform: scale(1.04);
+  background-color: #0b2e49;
+}
+
 .ac-add{
   color :#866014;
   font-weight: bold;
@@ -178,3 +209,22 @@ input:checked + .slider:before {
   color :#866014;
   font-weight: bold;
 }
+
+.box select {
+  background-color: #487da5;
+  color: white;
+  padding: 12px;
+  width: 250px;
+  border: none;
+  border-radius: .25rem;
+  font-size: 20px;
+  box-shadow: 0 5px 25px #a2a6be33;
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+}
+
+
+
+
+
