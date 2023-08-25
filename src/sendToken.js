@@ -69,7 +69,7 @@ function SendToken() {
 
       {isSuccess && (
         <div>
-          Successfully sent <div className='ac-coin'>{amount}</div> coins to <div className='ac-add'>{ac}</div>
+          Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{ac}</div>
         </div>)}
 
     </form>
