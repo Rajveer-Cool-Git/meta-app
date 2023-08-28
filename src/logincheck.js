@@ -7,7 +7,7 @@ import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
 import { SendTransaction } from './sendCoin'
 import SendToken from './sendToken';
-import Balance from './Balance';
+//import Balance from './Balance';
 import SwitchNet from './networkChain';
 
 
@@ -43,7 +43,7 @@ export function LoginApp() {
      <WagmiConfig config={config}>
       <div>
 
-        <Balance/>    <br   />
+       
         <SwitchNet/>  <br   />
         
         <div className='box'>

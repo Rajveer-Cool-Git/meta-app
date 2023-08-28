@@ -3,11 +3,12 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction,  } fr
 import { erc20ABI } from 'wagmi';
 import { useDebounce } from 'use-debounce';
 import { parseEther } from 'ethers';
+import { useAccount } from 'wagmi'
+import { useBalance } from 'wagmi'
 import './App.css';
 
 
 function SendToken() {
-  //const BNBT_CONTRACT_ADDRESS = '0x84b9B910527Ad5C03A9Ca831909E21e236EA7b06'; // Replace with the BNBT contract address
   
   const [con, setcontract] = React.useState('')
   //const [debouncedcontract] = useDebounce(con, 500)
@@ -29,11 +30,27 @@ function SendToken() {
 
   });
 
+    //to check token balance 
+    const { address } = useAccount()
+    const { data : tokenBal } = useBalance({
+        address: address,
+        token: con,
+   })
 
   const { data, write } = useContractWrite(config);
   const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash });
-  const handleClick = () => {
-    write?.();
+
+  const SendToken = () => {
+    if (!debouncedAmount || isNaN(parseFloat(debouncedAmount))) {
+      alert('Invalid amount, Please use numeric value');
+    } else if (parseFloat(debouncedAmount) <= 0) {
+      alert('Amount cant be zero');
+    } else if (amount > (tokenBal?.formatted)) {
+      alert('Insufficient amount av');
+    } else {
+      write?.();
+    }
+    
   };
 
   function closeAlert(element) {
@@ -43,13 +60,11 @@ function SendToken() {
   
   
   return (
-    
-  
     <div>
 
       <form onSubmit={(e) => {
         e.preventDefault()
-        handleClick()
+        SendToken()
       }}>
             <div>
             <label htmlFor="acc">Contract Address : </label>
@@ -81,7 +96,7 @@ function SendToken() {
                 value={amount} />
             </div>
       <div>
-      <button disabled={isLoading || !write || !ac } className='paybtn'>
+      <button disabled={isLoading } className='paybtn'>
         {isLoading ? 'Processing...' : 'Pay '}
       </button>
       </div>

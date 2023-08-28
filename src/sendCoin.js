@@ -26,13 +26,13 @@ export function SendTransaction() {
   const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash })
 
+  //to check coin balance
   const { address } = useAccount()
   const { data: AcBal} = useBalance({
-        address: address,
+        address: address,       //using AcBal to check coin
   })
 
-  //transaction handling
-  console.log(amount);
+    //transaction handling
     const handleTransaction = () => {
       if (!debouncedAmount || isNaN(parseFloat(debouncedAmount))) {
         alert('Invalid amount, Please use numeric value');

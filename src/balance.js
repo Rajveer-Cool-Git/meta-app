@@ -5,6 +5,7 @@
 //     const { address, isConnecting, isDisconnected } = useAccount()
 //     const { data, isError, isLoading } = useBalance({
 //         address: address,
+//         token: '0xE4B361431E2E194B38833004A6b72e3Ab3479aaE',
 //    })
 
 //     if (isConnecting) return <div>Connecting…</div>
@@ -21,19 +22,18 @@
 // export default Balance;
 
 
-// import { useContractRead } from 'wagmi'
-// import { erc20ABI } from 'wagmi';
-// 
-  import { useToken } from 'wagmi'
+//   import { useBalance } from 'wagmi'
 
-  function Balance() {
-    const { data, decimals, isError, isLoading } = useToken({
-      address: '',
-    })
+
+
+//   function Balance() {
+//     const balance = useBalance({
+//       address: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+//       token: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+//     })
   
-    if (isLoading) return <div>Fetching token…</div>
-    if (isError) return <div>Error fetching token</div>
-    return <div>Token: {decimals?.formatted}{data?.symbol}</div>
-  }
+
+//     return <div>Token: {decimals?.formatted}{data?.symbol}</div>
+//   }
   
- export default Balance;
+//  export default Balance;
