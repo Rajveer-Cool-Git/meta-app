@@ -3,14 +3,16 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction,  } fr
 import { erc20ABI } from 'wagmi';
 import { useDebounce } from 'use-debounce';
 import { parseEther } from 'ethers';
+import { useAccount } from 'wagmi'
+import { useBalance } from 'wagmi'
 import './App.css';
 
 
 function SendToken() {
-  const BNBT_CONTRACT_ADDRESS = '0xE4B361431E2E194B38833004A6b72e3Ab3479aaE'; // Replace with the BNBT contract address
-  //const RECIPIENT_ADDRESS = '0x038aC7727A8dC0F9AC4983A69e8554d06E31Ac2C'; // Replace with the recipient's address
-  //const TOKEN_AMOUNT = 1000000000000000000; // Replace with the amount of tokens to send
-
+  
+  const [con, setcontract] = React.useState('')
+  //const [debouncedcontract] = useDebounce(con, 500)
+  
   const [ac, setAc] = React.useState('')
   const [debouncedAc] = useDebounce(ac, 500)
 
@@ -20,7 +22,7 @@ function SendToken() {
   const tokenValue =  !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined;
 
   const { config } = usePrepareContractWrite({
-    address: BNBT_CONTRACT_ADDRESS,
+    address: con,
     abi : erc20ABI,
     functionName: 'transfer',
     args: [debouncedAc, tokenValue],
@@ -28,20 +30,54 @@ function SendToken() {
 
   });
 
-
+    //to check token balance 
+    const { address } = useAccount()
+    const { data : tokenBal } = useBalance({
+        address: address,
+        token: con,
+    })
+   
+  //to send tokens
   const { data, write } = useContractWrite(config);
   const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash });
-  const handleClick = () => {
-    write?.();
+
+  const SendToken = () => {
+    if (!debouncedAmount || isNaN(parseFloat(debouncedAmount))) {
+      alert('Invalid amount, Please use numeric value');
+    } else if (parseFloat(debouncedAmount) <= 0) {
+      alert('Amount cant be zero');
+    } else if (amount > (tokenBal?.formatted)) {
+      alert('Insufficient amount. \nyour Balance : '+(tokenBal?.formatted));
+    } else {
+      write?.();
+    }
+    
   };
+
+  function closeAlert(element) {
+    const parentDiv = element.parentElement;
+    parentDiv.style.display = 'none';
+  }
+  
   
   return (
-  
     <div>
+
       <form onSubmit={(e) => {
         e.preventDefault()
-        handleClick()
-      }}>
+        SendToken()
+        }}>
+
+            <div>
+            <label htmlFor="acc">Contract Address : </label>
+            <input
+                aria-label="Contract"
+                className='inputbtn'
+                onChange={(e) => setcontract(e.target.value)}
+                placeholder="Contract Address"
+                value={con} />
+            </div>
+            
             <div>
             <label htmlFor="acc">Account no : </label>
             <input
@@ -61,18 +97,23 @@ function SendToken() {
                 placeholder="1"
                 value={amount} />
             </div>
-      <div>
-      <button disabled={isLoading || !write || !ac || !amount} className='paybtn'>
-        {isLoading ? 'Processing...' : 'Pay '}
-      </button>
-      </div>
 
-      {isSuccess && (
-        <div>
-          Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{ac}</div>
-        </div>)}
+            <div>
+            <button disabled={isLoading } className='paybtn'>
+              {isLoading ? 'Processing...' : 'Pay '}
+            </button>
+            </div>
+   
+        {isSuccess &&  (
+        <div class="alert">
+            Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{ac}</div>
+            <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
+        </div>
+        )}
 
-    </form>
+      
+
+      </form>
     </div>
 
 

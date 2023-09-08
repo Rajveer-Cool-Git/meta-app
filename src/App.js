@@ -38,12 +38,11 @@ function App() {
         </header>
 
         <div className="app-body">
-        <MetaApp />
+          <MetaApp />
         </div>
 
         <WagmiConfig config={config}>
-          <LoginApp />
-          
+        <LoginApp />
         </WagmiConfig>
       
        

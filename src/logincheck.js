@@ -1,15 +1,16 @@
 import { useAccount } from 'wagmi'
-import { SendTransaction } from './sendCoin'
 import React, { useState } from 'react';
-
 import './App.css';
 
 import { mainnet, polygon, optimism, arbitrum, bscTestnet, bsc, telos } from "wagmi/chains";
 import { WagmiConfig, createConfig } from "wagmi";
 import { getDefaultConfig } from "connectkit";
-import SwitchNet from './Switching';
-import MintNFTForm from './sendToken';
-import MintNFT from './test';
+import { SendTransaction } from './sendCoin'
+import SendToken from './sendToken';
+//import Balance from './Balance';
+import SwitchNet from './networkChain';
+
+
 
 
 
@@ -41,19 +42,21 @@ export function LoginApp() {
     return (
      <WagmiConfig config={config}>
       <div>
-        <SwitchNet/>
 
+       
+        <SwitchNet/>  <br   />
+        
         <div className='box'>
         
         <select id="selectInput" onChange={(e) => setSelectedOption(e.target.value)}>
-          <option selected value="">Choose Value</option>
+          <option  value="">Choose Value</option>
           <option value="sendCoin">Send Coin</option>
           <option value="sendToken">Send Token</option>
         
         </select><br />
       </div>
           {selectedOption === 'sendCoin' && <SendTransaction />}
-          {selectedOption === 'sendToken' && <MintNFTForm />}
+          {selectedOption === 'sendToken' && <SendToken />}
         
   
       </div>
