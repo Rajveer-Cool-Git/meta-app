@@ -22,8 +22,8 @@ export function SendTransaction() {
     value: !isNaN(parseFloat(debouncedAmount)) && parseFloat(debouncedAmount) > 0 ? parseEther(debouncedAmount) : undefined,
   })
 
-  const { data, sendTransaction } = useSendTransaction(config)
-  const { isLoading, isSuccess } = useWaitForTransaction({
+  const { data, sendTransaction,   } = useSendTransaction(config)
+  const { isLoading, isSuccess,  } = useWaitForTransaction({
     hash: data?.hash })
 
   //to check coin balance
@@ -41,10 +41,15 @@ export function SendTransaction() {
       } else if (amount > (AcBal?.formatted)) {
         alert('Insufficient amount av');
       } else {
-        
-        sendTransaction?.();
+        if(
+        sendTransaction?.() ){
+          alert('Transaction Successful.');
+        }else{
+          alert('Transaction failed or rejected');
+        }
       }
     };
+
     
     function closeAlert(element) {
       const parentDiv = element.parentElement;

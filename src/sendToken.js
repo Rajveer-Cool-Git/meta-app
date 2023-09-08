@@ -35,8 +35,9 @@ function SendToken() {
     const { data : tokenBal } = useBalance({
         address: address,
         token: con,
-   })
-
+    })
+   
+  //to send tokens
   const { data, write } = useContractWrite(config);
   const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash });
 
@@ -46,7 +47,7 @@ function SendToken() {
     } else if (parseFloat(debouncedAmount) <= 0) {
       alert('Amount cant be zero');
     } else if (amount > (tokenBal?.formatted)) {
-      alert('Insufficient amount av');
+      alert('Insufficient amount. \nyour Balance : '+(tokenBal?.formatted));
     } else {
       write?.();
     }
@@ -65,7 +66,8 @@ function SendToken() {
       <form onSubmit={(e) => {
         e.preventDefault()
         SendToken()
-      }}>
+        }}>
+
             <div>
             <label htmlFor="acc">Contract Address : </label>
             <input
@@ -75,7 +77,7 @@ function SendToken() {
                 placeholder="Contract Address"
                 value={con} />
             </div>
-
+            
             <div>
             <label htmlFor="acc">Account no : </label>
             <input
@@ -95,22 +97,23 @@ function SendToken() {
                 placeholder="1"
                 value={amount} />
             </div>
-      <div>
-      <button disabled={isLoading } className='paybtn'>
-        {isLoading ? 'Processing...' : 'Pay '}
-      </button>
-      </div>
+
+            <div>
+            <button disabled={isLoading } className='paybtn'>
+              {isLoading ? 'Processing...' : 'Pay '}
+            </button>
+            </div>
    
-      {isSuccess &&  (
-      <div class="alert">
-          Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{ac}</div>
-          <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
-      </div>
-      )}
+        {isSuccess &&  (
+        <div class="alert">
+            Successfully sent <div className='ac-coin'>{amount}</div> Tokens to <div className='ac-add'>{ac}</div>
+            <span className="closebtn" onClick={(e) => closeAlert(e.target)}>&times;</span> 
+        </div>
+        )}
 
       
 
-    </form>
+      </form>
     </div>
 
 
